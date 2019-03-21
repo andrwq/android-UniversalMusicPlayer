@@ -16,25 +16,25 @@
 
 package com.example.android.uamp
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.uamp.utils.InjectorUtils
 import com.example.android.uamp.viewmodels.MainActivityViewModel
 import com.example.android.uamp.viewmodels.MediaItemFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_mediaitem_list.list
 import kotlinx.android.synthetic.main.fragment_mediaitem_list.loadingSpinner
+import kotlinx.android.synthetic.main.fragment_mediaitem_list.networkError
 
 /**
  * A fragment representing a list of MediaItems.
  */
-class MediaItemFragment : Fragment() {
+class MediaItemFragment : androidx.fragment.app.Fragment() {
     private lateinit var mediaId: String
     private lateinit var mainActivityViewModel: MainActivityViewModel
     private lateinit var mediaItemFragmentViewModel: MediaItemFragmentViewModel
@@ -76,7 +76,8 @@ class MediaItemFragment : Fragment() {
         mediaItemFragmentViewModel.mediaItems.observe(this,
                 Observer<List<MediaItemData>> { list ->
                     val isEmptyList = list?.isEmpty() ?: true
-                    loadingSpinner.visibility = if (isEmptyList) View.VISIBLE else View.GONE
+                    loadingSpinner.visibility = View.GONE
+                    networkError.visibility = if (isEmptyList) View.VISIBLE else View.GONE
                     listAdapter.submitList(list)
                 })
 
